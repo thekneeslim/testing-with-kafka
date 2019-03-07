@@ -30,11 +30,18 @@ public class KafkaConsumerFactory {
 
     private Properties getProperties() {
         Properties properties = new Properties();
-        properties.setProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        properties.setProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9093");
         properties.setProperty(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
         properties.setProperty(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
         properties.setProperty(ConsumerConfig.GROUP_ID_CONFIG, groupId);
         properties.setProperty(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+
+        properties.setProperty("security.protocol","SSL");
+        properties.setProperty("ssl.truststore.location","/Users/denise/Desktop/Messing_With_Code/experiments/kafka/testing-with-kafka/certs/client.truststore.jks");
+        properties.setProperty("ssl.truststore.password","password");
+        properties.setProperty("ssl.keystore.location","/Users/denise/Desktop/Messing_With_Code/experiments/kafka/testing-with-kafka/certs/server.keystore.jks");
+        properties.setProperty("ssl.keystore.password","password");
+        properties.setProperty("ssl.key.password","password");
         return properties;
     }
 

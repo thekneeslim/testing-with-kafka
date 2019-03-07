@@ -10,16 +10,22 @@ public class Application {
 
     public static void main(String[] args) {
         // Consumer
-        KafkaConsumerFactory consumer = new KafkaConsumerFactory("my-fifth-application");
-        consumer.subscribe(Arrays.asList("first_topic"));
-        consumer.listen();
+//        KafkaConsumerFactory consumer = new KafkaConsumerFactory("with_ssl");
+//        consumer.subscribe(Arrays.asList("test_topic"));
+//        consumer.listen();
 
         // Producer
         KafkaProducerFactory kafkaProducerFactory = new KafkaProducerFactory();
-        IntStream.range(0, 10)
-                .forEach(n -> kafkaProducerFactory.publishRecord("first_topic",
-                        String.format("hello word %d", n),
-                        String.format("id_%d", n)));
+        IntStream.range(0, 100000)
+                .forEach(n -> {
+                    kafkaProducerFactory.publishRecord("mytopic",
+                            String.format("{\"id\":\"%d\",\"message\":\"Harlo%d\"}", n, n));
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                });
     }
 
 }
