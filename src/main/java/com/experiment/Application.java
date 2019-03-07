@@ -1,9 +1,8 @@
 package com.experiment;
 
-import com.experiment.consumer.KafkaConsumerFactory;
 import com.experiment.producer.KafkaProducerFactory;
+import com.experiment.producer.KafkaProducerWrapper;
 
-import java.util.Arrays;
 import java.util.stream.IntStream;
 
 public class Application {
@@ -15,10 +14,10 @@ public class Application {
 //        consumer.listen();
 
         // Producer
-        KafkaProducerFactory kafkaProducerFactory = new KafkaProducerFactory();
+        KafkaProducerWrapper kafkaProducer = KafkaProducerFactory.withSSL("localhost:9098");
         IntStream.range(0, 100000)
                 .forEach(n -> {
-                    kafkaProducerFactory.publishRecord("mytopic",
+                    kafkaProducer.publishRecord("my_secured_topic",
                             String.format("{\"id\":\"%d\",\"message\":\"Harlo%d\"}", n, n));
                     try {
                         Thread.sleep(1000);
@@ -26,6 +25,7 @@ public class Application {
                         e.printStackTrace();
                     }
                 });
+
     }
 
 }
