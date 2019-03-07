@@ -1,17 +1,20 @@
 package com.experiment;
 
+import com.experiment.consumer.KafkaConsumerFactory;
+import com.experiment.consumer.KafkaConsumerWrapper;
 import com.experiment.producer.KafkaProducerFactory;
 import com.experiment.producer.KafkaProducerWrapper;
 
+import java.util.Arrays;
 import java.util.stream.IntStream;
 
 public class Application {
 
     public static void main(String[] args) {
         // Consumer
-//        KafkaConsumerFactory consumer = new KafkaConsumerFactory("with_ssl");
-//        consumer.subscribe(Arrays.asList("test_topic"));
-//        consumer.listen();
+        KafkaConsumerWrapper consumer = KafkaConsumerFactory.withSsl("localhost:9098", "secured_group");
+        consumer.subscribe(Arrays.asList("my_secured_topic"));
+        consumer.listen();
 
         // Producer
         KafkaProducerWrapper kafkaProducer = KafkaProducerFactory.withSSL("localhost:9098");

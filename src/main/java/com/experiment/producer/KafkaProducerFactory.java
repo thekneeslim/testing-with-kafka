@@ -21,7 +21,7 @@ public class KafkaProducerFactory {
         Properties properties = new KafkaClientPropertyBuilder()
                 .withServer(serverPort)
                 .withStringSerializer()
-                .withSsl()
+                .withProducerSsl()
                 .build();
         return new KafkaProducerWrapper(properties);
     }
