@@ -40,6 +40,15 @@ Jar has been included in `Sample Configurations` for your reference and should b
 
 
 ### Avro
+
+Avro requires these JVM & environment variables to start a producer/consumer with SSL
+
+```
+export SCHEMA_REGISTRY_OPTS="-Djavax.net.ssl.keyStore=/path/to/certs/server.keystore.jks -Djavax.net.ssl.trustStore=/path/to/certs/server.truststore.jks -Djavax.net.ssl.keyStorePassword=password -Djavax.net.ssl.trustStorePassword=password"
+
+export KAFKA_OPTS="-Djavax.net.ssl.keyStore=/path/to/certs/server.keystore.jks -Djavax.net.ssl.trustStore=/path/to/certs/server.truststore.jks -Djavax.net.ssl.keyStorePassword=password -Djavax.net.ssl.trustStorePassword=password"
+```
+
 Schema Registry Start
 ```
 ./bin/schema-registry-start ./etc/schema-registry/schema-registry.properties
