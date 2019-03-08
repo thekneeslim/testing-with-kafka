@@ -1,0 +1,48 @@
+## Starting Up Kafka
+
+Start Zookeeper
+```
+zookeeper-server-start /path/to/zookeeper.properties
+```
+
+Start Kafka
+```
+kafka-server-start /path/to/server.properties
+```
+
+Start Mirror
+```
+/bin/kafka-mirror-maker --consumer.config /path/to/consumer.properties --producer.config /path/to/producer.properties --whitelist secure_topic
+```
+
+Start Consumer with SSL from beginning & Group
+```
+./bin/kafka-console-consumer --bootstrap-server 127.0.0.1:9098 --topic topic_name --consumer.config /path/to/consumer.properties --from-beginnin --group my_group
+```
+
+Start Producer with SSL
+```
+./bin/kafka-console-producer --broker-list 127.0.0.1:9098 --topic my_secured_topic --producer.config /path/to/producer.properties
+```
+
+Creating a topic
+```
+kafka-topics --zookeeper 127.0.0.1:2181 --topic topic_name --create --partitions 3 --replication-factor 1
+```
+
+
+### Avro
+Schema Registry Start
+```
+./bin/schema-registry-start ./etc/schema-registry/schema-registry.properties
+```
+
+Avro Consumer
+```
+./bin/kafka-avro-console-consumer --bootstrap-server 127.0.0.1:9098 --topic avro_topic
+```
+
+Avro Producer
+```
+./bin/kafka-avro-console-producer --broker-list 127.0.0.1:9098 --topic my_secured_avro_topic --property value.schema='{"type":"record","name":"myrecord","fields":[{"name":"f1","type":"string"}]}' --producer.config ./etc/kafka/avro-producer.properties
+```
