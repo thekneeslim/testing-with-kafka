@@ -36,4 +36,14 @@ public class KafkaConsumerFactory {
                 .build();
         return new KafkaConsumerWrapper(properties);
     }
+
+    public static KafkaConsumerWrapper withAvro(String server, String groupId) {
+        Properties properties = new KafkaClientPropertyBuilder()
+                .withServer(server)
+                .withStringDeserializers()
+                .withGroupIdAndEarliestOffset(groupId)
+                .withAvroDeSerializers()
+                .build();
+        return new KafkaConsumerWrapper(properties);
+    }
 }

@@ -24,15 +24,40 @@
             <artifactId>slf4j-simple</artifactId>
             <version>1.7.25</version>
         </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.apache.avro</groupId>-->
+            <!--<artifactId>avro</artifactId>-->
+            <!--<version>${avro.version}</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>io.confluent</groupId>-->
+            <!--<artifactId>kafka-avro-serializer</artifactId>-->
+            <!--<version>5.1.2</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>io.confluent</groupId>-->
+            <!--<artifactId>kafka-schema-registry</artifactId>-->
+            <!--<version>3.3.1</version>-->
+        <!--</dependency>-->
         <dependency>
-            <groupId>org.apache.avro</groupId>
-            <artifactId>avro</artifactId>
-            <version>${avro.version}</version>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-streaming_2.11</artifactId>
+            <version>2.4.0</version>
         </dependency>
         <dependency>
-            <groupId>io.confluent</groupId>
-            <artifactId>kafka-avro-serializer</artifactId>
-            <version>5.1.2</version>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-streaming-kafka-0-10_2.11</artifactId>
+            <version>2.4.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-sql_2.11</artifactId>
+            <version>2.2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-sql-kafka-0-10_2.11</artifactId>
+            <version>2.2.0</version>
         </dependency>
     </dependencies>
 
@@ -46,42 +71,42 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.avro</groupId>
-                <artifactId>avro-maven-plugin</artifactId>
-                <version>${avro.version}</version>
-                <executions>
-                    <execution>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>schema</goal>
-                        </goals>
-                        <configuration>
-                            <sourceDirectory>${project.basedir}/src/main/resources/avro/io/confluent/examples/clients/basicavro/</sourceDirectory>
-                            <includes>
-                                <include>Payment.avsc</include>
-                            </includes>
-                            <outputDirectory>${project.build.directory}/generated-sources</outputDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>io.confluent</groupId>
-                <artifactId>kafka-schema-registry-maven-plugin</artifactId>
-                <version>5.1.2</version>
-                <configuration>
-                    <schemaRegistryUrls>
-                        <param>http://localhost:8081</param>
-                    </schemaRegistryUrls>
-                    <subjects>
-                        <transactions-value>src/main/resources/avro/io/confluent/examples/clients/basicavro/Payment2a.avsc</transactions-value>
-                    </subjects>
-                </configuration>
-                <goals>
-                    <goal>test-compatibility</goal>
-                </goals>
-            </plugin>
+            <!--<plugin>-->
+                <!--<groupId>org.apache.avro</groupId>-->
+                <!--<artifactId>avro-maven-plugin</artifactId>-->
+                <!--<version>${avro.version}</version>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<phase>generate-sources</phase>-->
+                        <!--<goals>-->
+                            <!--<goal>schema</goal>-->
+                        <!--</goals>-->
+                        <!--<configuration>-->
+                            <!--<sourceDirectory>${project.basedir}/src/main/resources/avro/io/confluent/examples/clients/basicavro/</sourceDirectory>-->
+                            <!--<includes>-->
+                                <!--<include>Payment.avsc</include>-->
+                            <!--</includes>-->
+                            <!--<outputDirectory>${project.build.directory}/generated-sources</outputDirectory>-->
+                        <!--</configuration>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+            <!--</plugin>-->
+            <!--<plugin>-->
+                <!--<groupId>io.confluent</groupId>-->
+                <!--<artifactId>kafka-schema-registry-maven-plugin</artifactId>-->
+                <!--<version>5.1.2</version>-->
+                <!--<configuration>-->
+                    <!--<schemaRegistryUrls>-->
+                        <!--<param>http://localhost:8083</param>-->
+                    <!--</schemaRegistryUrls>-->
+                    <!--&lt;!&ndash;<subjects>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<transactions-value>src/main/resources/avro/io/confluent/examples/clients/basicavro/Payment2a.avsc</transactions-value>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</subjects>&ndash;&gt;-->
+                <!--</configuration>-->
+                <!--<goals>-->
+                    <!--<goal>test-compatibility</goal>-->
+                <!--</goals>-->
+            <!--</plugin>-->
         </plugins>
     </build>
 

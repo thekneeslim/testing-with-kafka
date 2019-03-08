@@ -1,5 +1,8 @@
 package com.experiment.producer;
 
+import org.apache.avro.Schema;
+import org.apache.avro.generic.GenericData;
+import org.apache.avro.generic.GenericRecord;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.slf4j.Logger;
@@ -21,10 +24,31 @@ public class KafkaProducerWrapper {
         send(record);
     }
 
+//    public void publishAvroRecord(String topic, String message) {
+//        String userSchema = "{\"type\":\"record\"," +
+//                "\"name\":\"myrecord\"," +
+//                "\"fields\":[{\"name\":\"f1\",\"type\":\"string\"}]}";
+//        Schema.Parser parser = new Schema.Parser();
+//        Schema schema = parser.parse(userSchema);
+//        GenericRecord avroRecord = new GenericData.Record(schema);
+//        avroRecord.put("f1", message);
+//
+//        ProducerRecord<String, GenericRecord> record = new ProducerRecord<>(topic, avroRecord);
+//        try {
+//            producer.send(record);
+//        } finally {
+//            close();
+//        }
+//    }
+
     public void publishRecord(String topic, String message, String key) {
-        ProducerRecord<String, String> record = new ProducerRecord<>(topic, key, message);
-        logger.info(String.format("Key: %s", key));
-        send(record);
+        try {
+            ProducerRecord<String, String> record = new ProducerRecord<>(topic, key, message);
+            logger.info(String.format("Key: %s", key));
+            send(record);
+        } finally {
+            close();
+        }
     }
 
     private void send(ProducerRecord record) {

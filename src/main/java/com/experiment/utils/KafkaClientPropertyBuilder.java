@@ -30,12 +30,10 @@ public class KafkaClientPropertyBuilder {
     }
 
     public KafkaClientPropertyBuilder withProducerSsl() {
-        //configure the following three settings for SSL Encryption
         properties.setProperty(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, "SSL");
         properties.setProperty(SslConfigs.SSL_TRUSTSTORE_LOCATION_CONFIG, "./certs/server.truststore.jks");
         properties.setProperty(SslConfigs.SSL_TRUSTSTORE_PASSWORD_CONFIG,  "password");
 
-        // configure the following three settings for SSL Authentication
         properties.setProperty(SslConfigs.SSL_KEYSTORE_LOCATION_CONFIG, "./certs/server.keystore.jks");
         properties.setProperty(SslConfigs.SSL_KEYSTORE_PASSWORD_CONFIG, "password");
         properties.setProperty(SslConfigs.SSL_KEY_PASSWORD_CONFIG, "password");
@@ -43,8 +41,15 @@ public class KafkaClientPropertyBuilder {
         return this;
     }
 
+    public KafkaClientPropertyBuilder withAvroSerializers(String registry) {
+        properties.setProperty("schema.registry.url", registry);
+        properties.setProperty(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, io.confluent.kafka.serializers.KafkaAvroSerializer.class.getName());
+        properties.setProperty(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, io.confluent.kafka.serializers.KafkaAvroSerializer.class.getName());
+        return this;
+    }
+
     public KafkaClientPropertyBuilder withStringDeserializers() {
-        properties.setProperty(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
+        properties.setProperty(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         properties.setProperty(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
         return this;
     }
@@ -56,12 +61,10 @@ public class KafkaClientPropertyBuilder {
     }
 
     public KafkaClientPropertyBuilder withConsumerSsl() {
-        //configure the following three settings for SSL Encryption
         properties.setProperty(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, "SSL");
         properties.setProperty(SslConfigs.SSL_TRUSTSTORE_LOCATION_CONFIG, "./certs/client.truststore.jks");
         properties.setProperty(SslConfigs.SSL_TRUSTSTORE_PASSWORD_CONFIG,  "password");
 
-        // configure the following three settings for SSL Authentication
         properties.setProperty(SslConfigs.SSL_KEYSTORE_LOCATION_CONFIG, "./certs/server.keystore.jks");
         properties.setProperty(SslConfigs.SSL_KEYSTORE_PASSWORD_CONFIG, "password");
         properties.setProperty(SslConfigs.SSL_KEY_PASSWORD_CONFIG, "password");
@@ -70,7 +73,18 @@ public class KafkaClientPropertyBuilder {
         return this;
     }
 
+    public KafkaClientPropertyBuilder withAvroDeSerializers() {
+        properties.setProperty(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, io.confluent.kafka.serializers.KafkaAvroDeserializer.class.getName());
+        properties.setProperty(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, io.confluent.kafka.serializers.KafkaAvroDeserializer.class.getName());
+        return this;
+    }
+
     public Properties build() {
         return properties;
+    }
+
+    public KafkaClientPropertyBuilder withSchema(String schema) {
+        properties.setProperty("value.schema", schema);
+        return this;
     }
 }

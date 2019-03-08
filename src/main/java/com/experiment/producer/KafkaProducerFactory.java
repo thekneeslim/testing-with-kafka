@@ -26,4 +26,21 @@ public class KafkaProducerFactory {
         return new KafkaProducerWrapper(properties);
     }
 
+    public static KafkaProducerWrapper withAvro(String serverPort, String registry) {
+        Properties properties = new KafkaClientPropertyBuilder()
+                .withServer(serverPort)
+                .withAvroSerializers(registry)
+                .withSchema("'{\"type\":\"record\",\"name\":\"myrecord\",\"fields\":[{\"name\":\"f1\",\"type\":\"string\"}]}'")
+                .build();
+        return new KafkaProducerWrapper(properties);
+    }
+
+    public static KafkaProducerWrapper withSslAvro(String serverPort, String registry) {
+        Properties properties = new KafkaClientPropertyBuilder()
+                .withServer(serverPort)
+                .withProducerSsl()
+                .withAvroSerializers(registry)
+                .build();
+        return new KafkaProducerWrapper(properties);
+    }
 }
