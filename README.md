@@ -30,6 +30,9 @@ Creating a topic
 kafka-topics --zookeeper 127.0.0.1:2181 --topic topic_name --create --partitions 3 --replication-factor 1
 ```
 
+### Customize SSL Principal Reader
+Jar has been included in `Sample Configurations` for your reference and should be placed in `/confluent-4.1.1/share/java/kafka`.
+
 
 ### Avro
 Schema Registry Start
